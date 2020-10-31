@@ -62,7 +62,6 @@ const handleResolve = (obj) => {
     LokinetNotDetected();
   }
 };
-console.log("loaded");
 
 
 
@@ -90,3 +89,59 @@ const checkForLokinet = async () => {
 
 browser.alarms.onAlarm.addListener(async (alarm) => { checkForLokinet(); });
 checkForLokinet();
+
+
+const state = {};
+
+const injectLokinetBadge = (tabId) => {
+  state[tabId] = "icons/lokinet-32.png";
+}
+
+const setPageAction = (tabId) => {
+  let icon = state[tabId];
+  if(!icon) return;
+  browser.pageAction.show(tabId);
+  browser.pageAction.setIcon({
+    tabId: tabId,
+    path: icon
+  });
+  browser.pageAction.setTitle({
+    tabId: tabId,
+    title: "connected via lokinet"
+  });
+};
+
+const RESOURCE_TYPE_MAIN_FRAME = "main_frame";
+const RESOURCE_TYPE_SUB_FRAME = "sub_frame";
+
+
+browser.webRequest.onHeadersReceived.addListener(
+  (e) => {
+    if (e.tabId === -1 || (e.type !== RESOURCE_TYPE_MAIN_FRAME && e.type !== RESOURCE_TYPE_SUB_FRAME))
+    {
+      return;
+    }
+    const u = new URL(e.url);
+    if(u.hostname.endsWith(".loki"))
+    {
+      injectLokinetBadge(e.tabId);
+    }
+  },
+  { urls: ["<all_urls>"] },
+  ["responseHeaders"]
+);
+
+
+browser.webNavigation.onCommitted.addListener((e) => {
+  if (e.frameId === 0) {
+    setPageAction(e.tabId);
+  }
+});
+
+browser.tabs.onActivated.addListener((e) => {
+  setPageAction(e.tabId);
+});
+
+browser.tabs.onRemoved.addListener((tabId) => {
+  state[tabId] = null;
+});
