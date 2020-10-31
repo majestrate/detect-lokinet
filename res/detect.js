@@ -30,7 +30,7 @@ const LokinetNotDetected = () => {
 };
 
 const LokinetEnabled = () => {
-  setIcon("yellow");
+  setIcon("#f0b410");
   setText("connected to lokinet but with no exit");
 };
 
