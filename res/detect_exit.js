@@ -1,9 +1,21 @@
 const doit = async () => {
   const lookup = async (name) => { return await browser.dns.resolve(name, ["bypass_cache", "disable_trr", "canonical_name"]); };
-  const loki = await lookup("localhost.loki");
-  const exit = await lookup("exit.localhost.loki");
-  console.log(loki);
-  console.log(exit);
+  let lokiAddr = "";
+  let exitNode = "";
+  try
+  {
+    const loki = await lookup("localhost.loki");
+    lokiAddr = loki.canonicalName;
+  }
+  catch(ex)
+  {}
+  try
+  {
+    const exit = await lookup("exit.localhost.loki");
+    exitNode = exit.canonicalName;
+  }
+  catch(ex)
+  {}
   {
     var elem = document.getElementById("status");
     if(elem)
@@ -13,16 +25,16 @@ const doit = async () => {
   }
   {
     var elem = document.getElementById("loki-addr");
-    if(elem && loki.canonicalName)
+    if(elem && lokiAddr)
     {
-        elem.innerText = "our address: " + loki.canonicalName;
+        elem.innerText = "our address: " + lokiAddr;
     }
   }
   {
     var elem = document.getElementById("exit-node");
-    if(elem && exit.canonicalName)
+    if(elem && exitNode)
     {
-      elem.innerText = "exit node: " + exit.canonicalName;
+      elem.innerText = "exit node: " + exitNode;
     }
   }
 }

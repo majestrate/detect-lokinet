@@ -68,9 +68,23 @@ console.log("loaded");
 
 const checkForLokinet = async () => {
   console.log("lookup");
-  const loki = await lookup("localhost.loki");
-  const exit = await lookup("exit.localhost.loki");
-  handleResolve({error: null, connected: loki.canonicalName != "", exit: exit.canonicalName != ""});
+  let obj = {};
+  try
+  {
+    const res = await lookup("localhost.loki");
+    obj.connected = res.canonicalName;
+  }
+  catch(ex)
+  {
+    obj.error = "error: " +ex;
+  }
+  try
+  {
+    const res = await lookup("exit.localhost.loki");
+    obj.exit = res.canonicalName;
+  }
+  catch(ex) {}
+  handleResolve(obj);
   browser.alarms.create("checkForLokinet", {delayInMinutes: 0.1});
 };
 
