@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+  "name": "detect-lokinet",
+  "version": "0.0.1",
+
+  "description": "detect if you have lokinet connectivity",
+  "homepage_url": "https://github.com/majestrate/detect-lokinet",
+  "icons" : {
+    "32" : "icons/lokinet-32.png"
+  },
+
+  "permissions": [
+    "alarms",
+    "dns"
+  ],
+  "background" : {
+    "persistent" : true,
+    "scripts" : ["res/detect.js"]
+  },
+  "browser_action": {
+    "default_icon": "icons/lokinet-32.png",
+    "default_title": "detect lokinet",
+    "default_popup": "res/lokinet_detect.html"
+  }
+}
