@@ -70,7 +70,7 @@ const checkForLokinet = async () => {
   console.log("lookup");
   const loki = await lookup("localhost.loki");
   const exit = await lookup("exit.localhost.loki");
-  handleResolve({error: null, connected: !(!loki.canonicalName), exit: !(!exit.canonicalName)});
+  handleResolve({error: null, connected: loki.canonicalName != "", exit: exit.canonicalName != ""});
   browser.alarms.create("checkForLokinet", {delayInMinutes: 0.1});
 };
 
