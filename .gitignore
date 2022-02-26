@@ -4,3 +4,4 @@ node_modules
 *.crx
 build/
 dist/
+*.pem

@@ -1,14 +1,12 @@
 
-PRIVKEY ?= ~/.crx-privkey.pem
-
-all: build
+all: compile
 
 node_modules:
 	npm install
 
-build: node_modules
-	PRIVKEY=$(PRIVKEY) npm run dist
+compile: node_modules
+	npm run dev:pack
 
 clean:
-	npm run clean
+	npm run dev:clean
 	rm -rf node_modules
