@@ -1,0 +1,28 @@
+{
+    "name": "detect-lokinet",
+    "version": "0.1.0",
+    "description": "detect lokinet web extension",
+    "main": "index.js",
+    "scripts": {
+        "release:pack": "cross-env crx pack -p $PRIVKEY -o dist/detect-lokinet.crx",
+        "release:clean": "rm -rf dist",
+        "dev:pack": "mkdir build && crx pack > build/detect-lokinet.crx",
+        "dev:clean": "rm -rf build",
+        "build": "npm run dev:clean && npm run dev:pack",
+        "dist": "npm run release:clean && mkdir dist && npm run release:pack"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/majestrate/detect-lokinet.git"
+    },
+    "author": "jeff <jeff@oxen.io>",
+    "license": "GPL-3.0-or-later",
+    "bugs": {
+        "url": "https://github.com/majestrate/detect-lokinet/issues"
+    },
+    "homepage": "https://github.com/majestrate/detect-lokinet#readme",
+    "dependencies": {
+        "cross-env": "^7.0.3",
+        "crx": "^5.0.1"
+    }
+}
