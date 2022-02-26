@@ -1,7 +1,9 @@
 
 PRIVKEY ?= ~/.crx-privkey.pem
 
-build:
+all: build
+
+build: clean
 	PRIVKEY=$(PRIVKEY) npm run dist
 
 clean:
